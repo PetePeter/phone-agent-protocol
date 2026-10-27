@@ -114,7 +114,7 @@ sequenceDiagram
 
 | Area | Methods |
 |---|---|
-| Calls | `call.dial`, `call.answer`, `call.reject`, `call.hangup`, `call.say`, `call.hold`, `call.resume` |
+| Calls | `call.dial`, `call.answer`, `call.reject`, `call.hangup`, `call.say`, `call.sendDtmf`, `call.hold`, `call.resume` |
 | Conference | `conference.create`, `conference.join` |
 | SMS | `sms.send`, `sms.list`, `sms.read` |
 | Contacts | `contacts.search` |
@@ -122,7 +122,7 @@ sequenceDiagram
 
 ## Events at a glance
 
-`link`, `engine`, `call.ringing`, `call.state`, `call.utterance`, `call.spoken`, `sms.received`, `heartbeat`
+`link`, `engine`, `call.ringing`, `call.state`, `call.utterance`, `call.spoken`, `call.dtmf`, `sms.received`, `heartbeat`
 
 ## Security model
 

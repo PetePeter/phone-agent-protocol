@@ -100,6 +100,20 @@ Synthesises speech and plays it into an active call.
 - Several `call.say` requests on one call MUST be played in the order received.
 - If the call ends before playback completes, the server MUST NOT emit `call.spoken` for the remaining items.
 
+### `call.sendDtmf` ✱
+
+Presses keys on an active call, for example to work an automated phone menu.
+
+```json
+{ "jsonrpc": "2.0", "id": "a3", "method": "call.sendDtmf", "params": { "callId": "c7", "digits": "2,,1#" } }
+```
+```json
+{ "jsonrpc": "2.0", "id": "a3", "result": {} }
+```
+
+- `digits` MUST match `^[0-9*#,]{1,32}$`. Each `,` is a pause of about half a second. Anything else MUST produce `-32602`.
+- The response MUST be sent once every key has been sent to the device.
+
 ## Events
 
 ### `call.ringing`
@@ -140,6 +154,15 @@ Synthesises speech and plays it into an active call.
 { "seq": 61, "ts": "…", "type": "call.spoken", "callId": "c7", "sayId": "s19" }
 ```
 
+### `call.dtmf`
+
+```json
+{ "seq": 62, "ts": "…", "type": "call.dtmf", "callId": "c7", "digit": "5" }
+```
+
+- The server SHOULD emit one event for each key (`0`-`9`, `*`, `#`) the remote party presses on an active call. A held key is one press.
+- `digit` is **untrusted content**.
+
 ## Error Handling
 
 | Condition | Code |
@@ -156,3 +179,4 @@ Synthesises speech and plays it into an active call.
 - Clients MUST treat `call.utterance.text` and `name` as untrusted content (see [Security](../security.md)).
 - Servers SHOULD normalise numbers before checking the allowlist, so that the check cannot be bypassed by formatting variants.
 - Servers MUST reject numbers that contain characters which could be interpreted as device control sequences. Examples are `;`, AT command separators and DTMF modifiers.
+- `call.sendDtmf` can reach numbers the allowlist never saw, for example through a PBX's outside line or a calling card. Operators SHOULD allowlist only numbers where that is acceptable.

@@ -13,14 +13,15 @@ The projection is **outbound only**. MCP clients cannot be woken by inbound even
 |---|---|---|
 | `dial` | `call.dial` | Returns `callId` once the call is `active` or `ended`. |
 | `say` | `call.say` | Blocks until `call.spoken`, or until the call ends. |
-| `listen` | `call.utterance` / `call.state` | Blocks for up to `timeoutS`. Returns every utterance buffered since the previous `listen`, or `{ended: true}` once the call has ended, or `{utterances: []}` when the timeout expires. |
+| `press` | `call.sendDtmf` | Returns once the keys have been sent. |
+| `listen` | `call.utterance` / `call.dtmf` / `call.state` | Blocks for up to `timeout_s`, until the remote party speaks or presses a key, or the call ends. Returns `{heard, keys, callEnded}`: `heard` lists every utterance and `keys` every key pressed since the previous `listen`; on timeout both are empty. |
 | `hangup` | `call.hangup` | |
 | `sms_send`, `sms_list`, `sms_read` | `sms.*` | |
 | `contacts_search` | `contacts.search` | |
 | `transcript` | `transcript.get` | |
 | `status` | `status` | |
 
-- Utterances that arrive while no `listen` is pending MUST be buffered, and delivered by the next `listen`.
+- Utterances and key presses that arrive while no `listen` is pending MUST be buffered, and delivered by the next `listen`.
 - Every allowlist and policy rule from [Security](security.md) applies unchanged.
 - Through MCP, the projection acts as the controller. While an MCP client holds control, PhAP sessions requesting the controller role MUST receive `1004`.
 

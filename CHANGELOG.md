@@ -13,7 +13,7 @@ The initial draft revision.
   - controller and observer roles
 - Utilities: heartbeat, resumption by `seq`, idempotency of state-changing requests.
 - Server features:
-  - calls, including speech in and out
+  - calls, including speech in and out, and DTMF key presses both ways
   - conference
   - SMS
   - contacts
