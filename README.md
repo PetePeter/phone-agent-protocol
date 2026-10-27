@@ -6,7 +6,7 @@
 >
 > 📄 **Specification:** [`spec/2026-10-27/index.md`](spec/2026-10-27/index.md) · 🧩 **JSON Schema:** [`schema/2026-10-27/schema.json`](schema/2026-10-27/schema.json) · 📝 [Changelog](CHANGELOG.md)
 
-> 🚧 **Sample app coming soon:** telefony-app, a PhAP server for Android/iPhone over Bluetooth, will be released shortly as the reference implementation.
+> **Sample implementation:** [telefony-app](https://github.com/PetePeter/telefony-app), a PhAP server for Android/iPhone over Bluetooth, plus an example LLM host that answers calls with it.
 
 ---
 
@@ -54,7 +54,7 @@ The server is the **only** place the number allowlist is enforced. Its configura
 | Concept | Summary |
 |---|---|
 | **Server** | Owns the phone: the radio or link, audio, speech-to-text and text-to-speech, the allowlist. One per phone. |
-| **Client / host** | An agent runtime (for example Helm, [coming soon](#reference-implementations)). It picks which model handles what. |
+| **Client / host** | An agent runtime (for example the [sample call agent](#reference-implementations), or Helm). It picks which model handles what. |
 | **Controller / observer** | One controller may change state. Any number of observers may watch. |
 | **Events** | Notifications pushed by the server, each with a `seq` for resume. |
 | **Methods** | Typed requests. Those that change state are idempotent per request `id` for 60 s. |
@@ -156,18 +156,24 @@ That's enough for a CLI to hold a turn-based call it placed itself. Inbound call
 
 ## Reference implementations
 
-> 🚧 **Coming soon.** None is publicly available yet.
+```mermaid
+flowchart LR
+    Phone["Android / iPhone"] <-- Bluetooth HFP, PBAP, MAP --> S["telefony-app<br/>PhAP server"]
+    S <-- "PhAP (WebSocket JSON-RPC)" --> H["call_agent<br/>example LLM host"]
+    H <-- OpenAI-compatible API --> L[LLM]
+```
 
 | Project | Role | Status |
 |---|---|---|
-| **telefony-app** | Sample PhAP server. The PC acts as a Bluetooth hands-free unit for a real Android phone or iPhone (calls over HFP, contacts over PBAP, SMS over MAP), with local text-to-speech and speech-to-text. | 🚧 Coming soon |
-| **Helm** | PhAP client and agent host. Routes calls to a restricted local model and escalates to a larger model when needed. | 🚧 Coming soon |
+| **[telefony-app](https://github.com/PetePeter/telefony-app)** | Sample PhAP server. The PC acts as a Bluetooth hands-free unit for a real Android phone or iPhone (calls over HFP, contacts over PBAP, SMS over MAP), with local text-to-speech and speech-to-text. Every frame it sends is checked against the schema in its tests. | ✅ v0.1, tested on an iPhone |
+| **call_agent** (in telefony-app `examples/`) | Example PhAP host: an LLM phone assistant that answers allowlisted callers, with time, weather, conference and SMS tools. The LLM names people from a phonebook and never sees a number. | ✅ v0.1 |
+| **Helm** | PhAP client and agent host. Routes calls to a restricted local model and escalates to a larger model when needed. | 🚧 Planned |
 
 ## Roadmap
 
 - [x] `2026-10-27` draft: calls, SMS, contacts, conference, resume, idempotency
 - [x] JSON Schema for every frame
-- [ ] sample server (telefony-app)
+- [x] sample server and LLM host (telefony-app)
 - [ ] conformance test suite
 - [ ] `audio_stream` capability (raw PCM for speech-to-speech models)
 - [ ] barge-in (interrupting `call.say`)
