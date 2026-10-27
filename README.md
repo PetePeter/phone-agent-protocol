@@ -2,7 +2,7 @@
 
 **An open protocol that lets AI agents use a real phone:** place and answer calls, hold a live spoken conversation, run conference calls, send and read SMS, and search contacts.
 
-> **Status:** Draft, protocol revision `2026-10-27`. Breaking changes are possible until the first stable revision.
+> **Status:** Draft, still in development, protocol revision `2026-10-27`. Breaking changes are possible until the first stable revision; YMMV.
 >
 > 📄 **Specification:** [`spec/2026-10-27/index.md`](spec/2026-10-27/index.md) · 🧩 **JSON Schema:** [`schema/2026-10-27/schema.json`](schema/2026-10-27/schema.json) · 📝 [Changelog](CHANGELOG.md)
 
