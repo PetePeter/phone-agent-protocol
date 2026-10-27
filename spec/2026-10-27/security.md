@@ -9,6 +9,7 @@ A PhAP server can spend money and act in its owner's name: it places calls, send
 - Every outbound action MUST be checked against the allowlist by the server, before the device is contacted. Outbound actions are `call.dial`, every leg of `conference.create`, and `sms.send`.
 - These checks MUST apply equally to every protocol surface the server exposes, including the [MCP projection](mcp-projection.md).
 - Clients MAY pre-check, but servers MUST NOT rely on them doing so.
+- An operator MAY turn the allowlist off for outbound actions through configuration (for example `policy.outbound = "all"`) when the controller enforces its own policy. Servers MUST default to enforcing it, MUST still reject malformed numbers and anything that could carry device control sequences, and SHOULD warn wherever the setting is shown. Without the allowlist, a prompt-injected agent can call or text any number.
 
 ## 2. Configuration Is Out of Band
 

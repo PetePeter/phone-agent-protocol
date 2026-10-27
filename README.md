@@ -126,7 +126,7 @@ sequenceDiagram
 
 ## Security model
 
-- **Allowlist on the server.** Dialling, texting or conferencing a number that isn't allowlisted fails with `1001 not_allowed`, whichever protocol the request came in on.
+- **Allowlist on the server.** Dialling, texting or conferencing a number that isn't allowlisted fails with `1001 not_allowed`, whichever protocol the request came in on. An operator can turn this off for outbound actions (`policy.outbound = "all"`) when the controller enforces its own policy; it is on by default.
 - **Config fixed at startup.** No method changes the allowlist, the token or the policies.
 - **Token auth.** Connections are rejected unless the first frame is a `hello` carrying the right token.
 - **Localhost by default.** A remote bind requires TLS.

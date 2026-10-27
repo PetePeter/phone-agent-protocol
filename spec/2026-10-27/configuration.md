@@ -13,6 +13,7 @@ transport = "usb:10D7:B012+sco=2"
 allowlist      = ["+447700900123", "+61491570157"]
 fallback       = "ring"     # ring | reject   (applied after ringTimeout)
 ring_timeout_s = 15
+outbound       = "allowlist" # allowlist | all   (all: the controller decides; see Security §1)
 
 [phap]
 bind               = "127.0.0.1:7781"
@@ -31,7 +32,7 @@ enabled = true              # expose the MCP projection over stdio
 
 | Setting | Spec reference |
 |---|---|
-| `policy.allowlist` | [Security §1](security.md#1-server-side-policy-enforcement) |
+| `policy.allowlist`, `policy.outbound` | [Security §1](security.md#1-server-side-policy-enforcement) |
 | `policy.fallback`, `ring_timeout_s` | [Calls: `call.ringing`](server/calls.md#callringing) |
 | `phap.token` | [Authorization](basic/authorization.md) |
 | `phap.heartbeat_s` | [Heartbeat](basic/utilities/heartbeat.md) |
