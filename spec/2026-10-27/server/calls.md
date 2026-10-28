@@ -114,6 +114,24 @@ Presses keys on an active call, for example to work an automated phone menu.
 - `digits` MUST match `^[0-9*#,]{1,32}$`. Each `,` is a pause of about half a second. Anything else MUST produce `-32602`.
 - The response MUST be sent once every key has been sent to the device.
 
+### `call.history`
+
+The phone's own call log: missed, received and dialed calls, newest first.
+
+```json
+{ "jsonrpc": "2.0", "id": "h1", "method": "call.history", "params": { "limit": 2 } }
+```
+```json
+{ "jsonrpc": "2.0", "id": "h1", "result": { "calls": [
+  { "direction": "missed", "number": "+61491570157", "name": "Octavio", "ts": "2026-10-28T19:45:00+11:00" },
+  { "direction": "received", "number": "withheld", "ts": "2026-10-28T12:00:00+11:00" }
+] } }
+```
+
+- `direction` is `missed`, `received` or `dialed`. `limit` defaults to 20.
+- A call with no caller ID MUST have `number` `"withheld"`. `name` is present only when the phone knows one.
+- The log is read from the device and includes calls the server never handled.
+
 ## Events
 
 ### `call.ringing`
@@ -176,7 +194,7 @@ Presses keys on an active call, for example to work an automated phone menu.
 ## Security Considerations
 
 - Servers MUST enforce the allowlist for `call.dial` whether the target is given as `number` or as `contact`.
-- Clients MUST treat `call.utterance.text` and `name` as untrusted content (see [Security](../security.md)).
+- Clients MUST treat `call.utterance.text`, `name` and `call.history` names as untrusted content (see [Security](../security.md)).
 - Servers SHOULD normalise numbers before checking the allowlist, so that the check cannot be bypassed by formatting variants.
 - Servers MUST reject numbers that contain characters which could be interpreted as device control sequences. Examples are `;`, AT command separators and DTMF modifiers.
 - `call.sendDtmf` can reach numbers the allowlist never saw, for example through a PBX's outside line or a calling card. Operators SHOULD allowlist only numbers where that is acceptable.

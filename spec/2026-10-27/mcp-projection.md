@@ -18,6 +18,7 @@ The projection is **outbound only**. MCP clients cannot be woken by inbound even
 | `hangup` | `call.hangup` | |
 | `sms_send`, `sms_list`, `sms_read` | `sms.*` | |
 | `contacts_search` | `contacts.search` | |
+| `call_log` | `call.history` | |
 | `transcript` | `transcript.get` | |
 | `status` | `status` | |
 

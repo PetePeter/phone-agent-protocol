@@ -114,7 +114,7 @@ sequenceDiagram
 
 | Area | Methods |
 |---|---|
-| Calls | `call.dial`, `call.answer`, `call.reject`, `call.hangup`, `call.say`, `call.sendDtmf`, `call.hold`, `call.resume` |
+| Calls | `call.dial`, `call.answer`, `call.reject`, `call.hangup`, `call.say`, `call.sendDtmf`, `call.hold`, `call.resume`, `call.history` |
 | Conference | `conference.create`, `conference.join` |
 | SMS | `sms.send`, `sms.list`, `sms.read` |
 | Contacts | `contacts.search` |
